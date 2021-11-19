@@ -24,11 +24,11 @@ function getTime()
     }
 
     switch ($minute) {
-        case (($minute >= 2 && $minute < 5) || ($minute % 10 >= 2 && $minute % 10 <= 5)):
-            echo $minute . " минуты.";
-            break;
         case (($minute >= 5 && $minute <= 20) || ($minute % 10 >= 5 && $minute % 10 <= 9)):
             echo $minute . " минут.";
+            break;
+        case (($minute >= 2 && $minute < 5) || ($minute % 10 >= 2 && $minute % 10 <= 5)):
+            echo $minute . " минуты.";
             break;
         case ($minute == 1 || $minute % 10 == 1):
             echo $minute . " минута.";
