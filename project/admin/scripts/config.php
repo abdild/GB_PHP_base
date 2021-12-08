@@ -15,4 +15,4 @@ $conn = mysqli_connect($host, $username, $password, $database);
 // Проверяем соединение
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
-} else {echo "Connection to data base.";}
+}

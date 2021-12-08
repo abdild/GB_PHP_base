@@ -107,3 +107,7 @@ $locations = mysqli_fetch_all($res);
     </div>
     <p><small><?= $error_form; ?></small></p>
 </form>
+
+<?php
+include($_SERVER['DOCUMENT_ROOT'] . "/$root_dir/admin/pages/pageItems.php");
+?>

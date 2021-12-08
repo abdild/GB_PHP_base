@@ -15,7 +15,7 @@
 <body>
     <div class="wrapper">
         <h1 style="padding-bottom: 10px">Загрузка фотографий</h1>
-        <form action="image_load.php" method="post" enctype="multipart/form-data">
+        <form action="task_2-4/image_load.php" method="post" enctype="multipart/form-data">
             <label for="photo">Выберите фотографию</label><br>
             <input type="file" name="photo" id="photo"><br>
             <input type="submit" value="Загрузить">

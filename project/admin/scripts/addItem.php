@@ -1,12 +1,3 @@
-<pre>
-<?php
-// print_r($_POST);
-"<br>";
-// print_r($_FILES);
-// print_r($_SERVER);
-?>
-</pre>
-
 <?php
 require_once('config.php');
 include($_SERVER["DOCUMENT_ROOT"] . "/$root_dir/admin/classes/TranslitText.php");
@@ -25,6 +16,10 @@ if (isset($_POST)) {
         $file_name_tmp = $_FILES["image"]["tmp_name"]; // Название временного загруженного файла
         $file_size = $_FILES["image"]["size"]; // Размер файла
         $file_loaded = []; // Массив с загруженными файлами
+
+        // Именование файла с добавлением времени с целью исключения дублирования названий добавляемых файлов
+        $file_name = pathinfo($file_name);
+        $file_name = $file_name['filename'] . '-' . time() . '.' . $file_name['extension'];
 
         if ($file_type[0] === "image" and in_array($file_type[1], $image_ext)) {
             if ($file_size <= $max_size_image) {
@@ -61,7 +56,7 @@ if (isset($_POST)) {
                                     "time" => explode('T', $_POST['date_time'])[1],
                                     "price" => $_POST['price']
                                 ],
-                                "image" => $_SERVER["DOCUMENT_ROOT"] . "/$root_dir/$img_dir_full/$file_name_loaded"
+                                "image" => "$img_dir_full/$file_name_loaded"
                             ]
                         ]
                     ];
@@ -72,20 +67,29 @@ if (isset($_POST)) {
                     $DB_name = $item[0]['event']['name'];
                     $DB_description = $item[0]['event']['description'];
                     $DB_category = $item[0]['event']['category'];
+                    $DB_date = $item[0]['event']['session']['date'];
+                    $DB_time = $item[0]['event']['session']['time'];
+                    $DB_price = $item[0]['event']['session']['price'];
+                    $DB_location = $item[0]['place']['location'];
+                    $DB_image = $item[0]['event']['image'];
 
-                    echo $DB_name."<br>";
-                    echo $DB_description."<br>";
-                    echo $DB_category."<br>";
+                    // echo $DB_name."<br>";
+                    // echo $DB_description."<br>";
+                    // echo $DB_category."<br>";
 
-                    $query = "INSERT INTO `events`(`name`, `description`, `category`, `date`, `time`, `price`, `location`, `image`) VALUES ('tgyrt')";
+                    // $query = "INSERT INTO `events`(`name`, `description`, `category`, `date`, `time`, `price`, `location`, `image`) VALUES ('tgyrt')";
+                    $query = "INSERT INTO `events`(`name`, `description`, `category`, `date`, `time`, `price`, `location`, `image`) VALUES ('$DB_name', '$DB_description', '$DB_category', '$DB_date', '$DB_time ', '$DB_price', '$DB_location', '$DB_image')";
                     mysqli_query($conn, $query);
 
+
+                    header("Location: ../index.php");
+
+                    // $link_referer = $_SERVER["DOCUMENT_ROOT"] . "/project/admin/scripts/config.php";
 ?>
-                    <pre>
-<?php
-                    // print_r($item);
-?>
-</pre>
+                    <!-- <h3>Информация добавлена успешно</h3>
+                    <br>
+                    <a href="<?= $_SERVER["HTTP_REFERER"]; ?>">Назад</a> -->
+
 <?php
 
 
