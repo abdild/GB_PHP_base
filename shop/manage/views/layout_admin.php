@@ -18,7 +18,7 @@
 
 <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a href="<?= '/' . $dir_root . '/index.php'; ?>" class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Company name</a>
+        <a href="<?= "../index.php"; ?>" class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">На сайт</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,7 +41,7 @@
                                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                 </svg>
-                                Мероприятия
+                                Главная
                             </a>
                         </li>
                         <li class="nav-item">
@@ -59,17 +59,43 @@
                                             echo "none";
                                         };
                                         ?>; z-index: $zindex-modal; margin-top: 10px;" class="alert <?php if ($_GET['result'] == "success") {
-                                            echo "alert-success ";
-                                        } elseif ($_GET['result'] == "warning") {
-                                            echo "alert-warning ";
-                                        } elseif ($_GET['result'] == "danger") {
-                                            echo "alert-danger ";
-                                        }; ?> alert-dismissible fade show position-absolute end-0" role="alert">
+                                                                                                        echo "alert-success ";
+                                                                                                    } elseif ($_GET['result'] == "warning") {
+                                                                                                        echo "alert-warning ";
+                                                                                                    } elseif ($_GET['result'] == "danger") {
+                                                                                                        echo "alert-danger ";
+                                                                                                    }; ?> alert-dismissible fade show position-absolute end-0" role="alert">
                     <?= $_GET['message']; ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
-                <?php include('addItemForm.php'); ?>
+                <?php
+                if (!$_GET['action']) {
+                    $pageTitleSub = "Добавление";
+                    include('addItemForm.php');
+                } else {
+                    switch ($_GET['action']) {
+                        case "edit":
+                            // Проверяем наличие id и того, что этот id существует в БД
+                            if (!(int) $_GET['id'] or !in_array((int) $_GET['id'], getIDs($conn))) {
+                                $pageTitleSub = "Добавление"; // Заголовок блока
+                                $items = []; // Обнуляем ранее переданный элемент
+                                include('addItemForm.php');
+                            } else {
+                                $id = $_GET['id'];
+                                $pageTitleSub = "Редактирование"; // Заголовок блока
+                                $item = getItem($conn, $id); // Получаем элемент с id
+                                include('addItemForm.php');
+                            }
+                            break;
+                        default:
+                            $pageTitleSub = "Добавление"; // Заголовок блока
+                            $items = []; // Обнуляем ранее переданный элемент
+                            include('addItemForm.php');
+                    }
+                }
+
+                ?>
                 <?php include('items.php'); ?>
             </main>
         </div>
