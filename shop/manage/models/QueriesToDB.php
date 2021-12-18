@@ -186,7 +186,6 @@ function getIDs($conn)
 // Запись отзыва в БД
 function setReview($conn, $id, $date, $time, $name, $text)
 {
-
     // Добавление нового элемента в БД
     $query = "INSERT INTO `reviews`(`events_id`, `date`, `time`, `name`, `text`) VALUES ('$id', '$date', '$time', '$name', '$text ')";
     if (mysqli_query($conn, $query)) {
@@ -214,9 +213,14 @@ function checkAuth($conn, $email, $password)
 }
 
 // Поиск пользователя по id
-function getUser($conn, $id) {
+function getUser($conn, $id)
+{
     $query = "SELECT * FROM users WHERE id = $id";
     $user = mysqli_query($conn, $query);
 
-    return mysqli_fetch_assoc($user);
+    if ($user) {
+        return mysqli_fetch_assoc($user);
+    } else {
+        return 'false';
+    }
 }

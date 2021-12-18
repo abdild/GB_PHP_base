@@ -6,5 +6,5 @@
 
 $user = getUser($conn, $_SESSION['id'])
 ?>
-
+<h1>Личный кабинет</h1>
 <h2>Привет, <?= $user['email']; ?></h2>
