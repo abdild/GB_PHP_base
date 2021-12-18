@@ -35,7 +35,7 @@ $reviews = getReview($conn, $id); // Получаем отзывы
         <h1 class="item_title"><?= $item['name']; ?></h1>
         <div class="item_secondary"><?= $item['date'] . ", " . substr($item['time'], 0, -3); ?></div>
         <div class="item_text"><?= $item['description']; ?></div>
-        <button class="button btn_primary primary">В корзину</button>
+        <a href="controllers/addToCart.php" class="button btn_primary primary">Купить</a>
         <div class="reviews_block">
             <h3>Отзывы</h3>
             <?php
