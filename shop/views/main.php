@@ -1,4 +1,4 @@
-<h1>Заголовок</h1>
+<h1>Мероприятия</h1>
 <div class="cards">
     <?php
     $items = getAllItems($conn);

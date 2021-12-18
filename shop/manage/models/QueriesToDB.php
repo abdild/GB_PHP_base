@@ -29,7 +29,8 @@ function getAllCities($conn)
 }
 
 // Поиск города по id
-function getCity($conn, $id) {
+function getCity($conn, $id)
+{
     $query = "SELECT city FROM cities WHERE id = $id";
     $res = mysqli_query($conn, $query);
     $res = mysqli_fetch_assoc($res);
@@ -53,7 +54,8 @@ function getAllCategories($conn)
 }
 
 // Поиск категории по id
-function getCategory($conn, $id) {
+function getCategory($conn, $id)
+{
     $query = "SELECT category FROM categories WHERE id = $id";
     $res = mysqli_query($conn, $query);
     $res = mysqli_fetch_assoc($res);
@@ -77,7 +79,8 @@ function getAllLocation($conn)
 }
 
 // Поиск локации по id
-function getLocation($conn, $id) {
+function getLocation($conn, $id)
+{
     $query = "SELECT location FROM locations WHERE id = $id";
     $res = mysqli_query($conn, $query);
     $res = mysqli_fetch_assoc($res);
@@ -143,25 +146,25 @@ function getItem($conn, $id)
 // Редактирование элемента
 function editItem($conn, $item, $id)
 {
-   // Сообщение от БД
-   $messageFromDB = "";
+    // Сообщение от БД
+    $messageFromDB = "";
 
-   // Распарсивание массива нового элемента
-   $DB_name = $item[0]['event']['name'];
-   $DB_description = $item[0]['event']['description'];
-   $DB_category = $item[0]['event']['category'];
-   $DB_date = $item[0]['event']['session']['date'];
-   $DB_time = $item[0]['event']['session']['time'];
-   $DB_price = $item[0]['event']['session']['price'];
-   $DB_city = $item[0]['place']['city'];
-   $DB_location = $item[0]['place']['location'];
-   $DB_image = $item[0]['event']['image'];
+    // Распарсивание массива нового элемента
+    $DB_name = $item[0]['event']['name'];
+    $DB_description = $item[0]['event']['description'];
+    $DB_category = $item[0]['event']['category'];
+    $DB_date = $item[0]['event']['session']['date'];
+    $DB_time = $item[0]['event']['session']['time'];
+    $DB_price = $item[0]['event']['session']['price'];
+    $DB_city = $item[0]['place']['city'];
+    $DB_location = $item[0]['place']['location'];
+    $DB_image = $item[0]['event']['image'];
 
-   // Обновление элемента в БД
-   $query = "UPDATE `events` SET `name`='$DB_name',`description`='$DB_description',`category`=$DB_category,`date`='$DB_date',`time`='$DB_time',`price`=$DB_price,`city`=$DB_city,`location`=$DB_location,`image`='$DB_image' WHERE `id`=$id";
-   if (mysqli_query($conn, $query)) {
-       return $messageFromDB = "Элемент обновлен.";
-   } else return $messageFromDB = "Ошибка обновления элемента.";
+    // Обновление элемента в БД
+    $query = "UPDATE `events` SET `name`='$DB_name',`description`='$DB_description',`category`=$DB_category,`date`='$DB_date',`time`='$DB_time',`price`=$DB_price,`city`=$DB_city,`location`=$DB_location,`image`='$DB_image' WHERE `id`=$id";
+    if (mysqli_query($conn, $query)) {
+        return $messageFromDB = "Элемент обновлен.";
+    } else return $messageFromDB = "Ошибка обновления элемента.";
 }
 
 // Получение всех id элементов, имеющихся в БД
@@ -181,20 +184,39 @@ function getIDs($conn)
 }
 
 // Запись отзыва в БД
-function setReview ($conn, $id, $date, $time, $name, $text) {
-    
-     // Добавление нового элемента в БД
-     $query = "INSERT INTO `reviews`(`events_id`, `date`, `time`, `name`, `text`) VALUES ('$id', '$date', '$time', '$name', '$text ')";
-     if (mysqli_query($conn, $query)) {
-         return $messageFromDB = "Отзыв добавлен.";
-     } else return $messageFromDB = "Ошибка добавления отзыва.";    
+function setReview($conn, $id, $date, $time, $name, $text)
+{
+
+    // Добавление нового элемента в БД
+    $query = "INSERT INTO `reviews`(`events_id`, `date`, `time`, `name`, `text`) VALUES ('$id', '$date', '$time', '$name', '$text ')";
+    if (mysqli_query($conn, $query)) {
+        return $messageFromDB = "Отзыв добавлен.";
+    } else return $messageFromDB = "Ошибка добавления отзыва.";
 }
 
-
 // Получение комментария из БД
-function getReview($conn, $id) {
+function getReview($conn, $id)
+{
     $query = "SELECT * FROM reviews WHERE events_id = $id";
     $item = mysqli_query($conn, $query);
 
     return mysqli_fetch_all($item);
+}
+
+// Поиск пользователя при авторизации
+function checkAuth($conn, $email, $password)
+{
+    // $password = md5($password);
+    $query = "SELECT * FROM users WHERE `email` = '$email'";
+    $user = mysqli_query($conn, $query);
+
+    return mysqli_fetch_assoc($user);
+}
+
+// Поиск пользователя по id
+function getUser($conn, $id) {
+    $query = "SELECT * FROM users WHERE id = $id";
+    $user = mysqli_query($conn, $query);
+
+    return mysqli_fetch_assoc($user);
 }
